@@ -3,13 +3,14 @@ project(FacadeService)
 
 set(CMAKE_CXX_STANDARD 20)
 
+find_package(spdlog REQUIRED)
+
 add_executable(FacadeService main.cpp service/FacadeService.hpp service/FacadeService.cpp)
 
 # Taken from libhttp server github
 include(cmake/FindLibHttpServer.cmake)
 include(cmake/FindCpr.cmake)
 
-find_package(spdlog REQUIRED)
 target_include_directories(${PROJECT_NAME} PRIVATE spdlog)
 target_link_libraries(${PROJECT_NAME} spdlog::spdlog)
 

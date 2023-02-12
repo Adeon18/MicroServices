@@ -25,8 +25,8 @@ namespace srv {
         }
 
         void start() {
-            m_webServer.start(true);
             spdlog::info("Server at " + PATH + " started");
+            m_webServer.start(true);
         }
     private:
         webserver m_webServer = create_webserver(port);
@@ -36,13 +36,13 @@ namespace srv {
     class FacadeServiceResource : public http_resource {
         inline static std::string GET_RESPONSE = "Facade server GET response placeholder";
         inline static std::string POST_RESPONSE = "Facade server POST response placeholder";
-        inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8082/MessagesService";
+        inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8082/MessageService";
         inline static std::string LOGGING_SERVICE_ADDRESS = "http://localhost:8081/LoggingService";
     public:
         FacadeServiceResource();
 
         //! Send get requests to MessageService and Logging Service and return respective data
-        std::shared_ptr<http_response> render_GET(const http_request &) override;
+        std::shared_ptr<http_response> render_GET(const http_request &request) override;
         //! Generate UUID and send a post request to Logging Service
         std::shared_ptr<http_response> render_POST(const http_request &request) override;
     };

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "service/LoggingService.hpp"
 
 int main() {
