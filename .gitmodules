@@ -4,3 +4,6 @@
 [submodule "lib/cpr"]
 	path = lib/cpr
 	url = https://github.com/libcpr/cpr.git
+[submodule "lib/spdlog"]
+	path = lib/spdlog
+	url = https://github.com/gabime/spdlog.git

@@ -9,6 +9,10 @@ add_executable(FacadeService main.cpp service/FacadeService.hpp service/FacadeSe
 include(cmake/FindLibHttpServer.cmake)
 include(cmake/FindCpr.cmake)
 
+find_package(spdlog REQUIRED)
+target_include_directories(${PROJECT_NAME} PRIVATE spdlog)
+target_link_libraries(${PROJECT_NAME} spdlog::spdlog)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${LIBHTTPSERVER_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${LIBHTTPSERVER_LIBRARIES})
 
