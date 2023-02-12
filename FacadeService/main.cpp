@@ -1,20 +1,16 @@
+#include <iostream>
 #include <httpserver.hpp>
+#include <cpr/cpr.h>
 
-using namespace httpserver;
+#include "service/FacadeService.hpp"
 
-class hello_world_resource : public http_resource {
-public:
-    std::shared_ptr<http_response> render(const http_request&) {
-        return std::shared_ptr<http_response>(new string_response("Hello, World!"));
-    }
-};
 
 int main(int argc, char** argv) {
-    webserver ws = create_webserver(8080);
+    srv::FacadeService<srv::SERVICE_PORT> facadeService;
 
-    hello_world_resource hwr;
-    ws.register_resource("/hello", &hwr);
-    ws.start(true);
+    srv::FacadeServiceResource fsr{};
+    facadeService.registerService(&fsr);
+    facadeService.start();
 
     return 0;
 }

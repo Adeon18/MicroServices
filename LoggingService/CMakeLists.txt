@@ -3,7 +3,7 @@ project(LoggingService)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(LoggingService main.cpp)
+add_executable(LoggingService main.cpp service/LoggingService.hpp service/LoggingService.cpp)
 
 # Taken from libhttp server github
 include(cmake/FindLibHttpServer.cmake)

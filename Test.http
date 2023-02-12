@@ -1,0 +1,10 @@
+GET http://localhost:8080/FacadeService
+Accept: text/html
+
+###
+
+POST http://localhost:8080/FacadeService
+Content-Type: application/text
+
+msg
+###
