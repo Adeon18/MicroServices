@@ -26,7 +26,7 @@ namespace srv {
 
     std::shared_ptr<http_response> LoggingServiceResource::render_POST(const http_request& request) {
         spdlog::info(
-                "Received GET from: " + std::string{request.get_requestor()} + ":" +
+                "Received POST from: " + std::string{request.get_requestor()} + ":" +
                 std::to_string(request.get_requestor_port())
         );
 
