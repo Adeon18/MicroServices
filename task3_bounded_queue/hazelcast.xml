@@ -1,0 +1,6 @@
+<hazelcast>
+    <cluster-name>dev</cluster-name>
+    <queue name="my-distributed-queue">
+        <max-size>10</max-size>
+    </queue>
+</hazelcast>
