@@ -27,3 +27,4 @@ cmake .. && make
 ```
 
 ## Running
+Just run 3 executables from separate terminal instances and you're good. You can also use Clion's `Services` interface for that too.
