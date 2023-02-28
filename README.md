@@ -1,7 +1,27 @@
-# MicroServices
-Some microservices written in C++ as lab works for the Software Architecture Course at Ukrainian Catholic University
+# Lab 2 - hazelcast testing
+- By [Ostap Trush](https://github.com/Adeon18)
 
-## Running via docker
+
+## Requirements
+- gcc/clang
+- cmake
+
+## Building
+
+Ths will build 3 different executables for 3 different tasks.
+
+You are free to modify the code as suggested in the comments to achieve
+the results specified in the protocol.
+
+```
+git clone https://github.com/Adeon18/MicroServices.git
+
+cd MicroServices
+mkdir build && cd build
+cmake .. && make
+```
+
+## Running the HZ via docker
 
 ### Run the cluster nodes
 ```sh

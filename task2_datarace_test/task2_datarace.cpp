@@ -16,17 +16,29 @@ using namespace hazelcast::client;
 static constexpr std::string KEY = "1";
 
 //! Put value, get, increment and put again, repeat 100 times, no locks => datarace
-void task2_datarace(const std::shared_ptr<imap>& map) {
+void task2_datarace(int threadNum) {
+    hazelcast::client::client_config config;
+    config.get_logger_config().level(hazelcast::logger::level::off); // disables logging completely
+    auto hz = hazelcast::new_client(std::move(config)).get();
+    auto map = hz.get_map("my-distributed-map").get();
+
     map->put<std::string, int>(KEY, 0).get();
     for (size_t i = 0; i < 1000; ++i) {
         auto val = map->get<std::string, int>(KEY).get();
         ++(*val);
         map->put<std::string, int>(KEY, *val).get();
+        //if (i == 500) std::cout << "Thread " << threadNum << ": Wrote half of the values(500)" << std::endl;
     }
+    hz.shutdown().get();
 }
 
 //! Put value, get, increment and put again, repeat 100 times, pessimistic lock => no datarace
-void task2_pessimistic_lock(const std::shared_ptr<imap>& map) {
+void task2_pessimistic_lock(int threadNum) {
+    hazelcast::client::client_config config;
+    config.get_logger_config().level(hazelcast::logger::level::off); // disables logging completely
+    auto hz = hazelcast::new_client(std::move(config)).get();
+    auto map = hz.get_map("my-distributed-map").get();
+
     map->put<std::string, int>(KEY, 0).get();
     for (size_t i = 0; i < 1000; ++i) {
         // lock
@@ -35,13 +47,20 @@ void task2_pessimistic_lock(const std::shared_ptr<imap>& map) {
             auto val = map->get<std::string, int>(KEY).get();
             ++(*val);
             map->put<std::string, int>(KEY, *val).get();
+            //if (i == 500) std::cout << "Thread " << threadNum << ": Wrote half of the values(500)" << std::endl;
         } catch (...) {}
         // unlock
         map->unlock(KEY).get();
     }
+    hz.shutdown().get();
 }
 
-void task2_optimistic_lock(const std::shared_ptr<imap>& map) {
+void task2_optimistic_lock(int threadNum) {
+    hazelcast::client::client_config config;
+    config.get_logger_config().level(hazelcast::logger::level::off); // disables logging completely
+    auto hz = hazelcast::new_client(std::move(config)).get();
+    auto map = hz.get_map("my-distributed-map").get();
+
     map->put<std::string, int>(KEY, 0).get();
     for (size_t i = 0; i < 1000; ++i) {
         while (true) {
@@ -49,19 +68,17 @@ void task2_optimistic_lock(const std::shared_ptr<imap>& map) {
             int valNew = *valPrev;
             ++valNew;
             if (map->replace<std::string, int>(KEY, *valPrev, valNew).get()) {
+                //if (i == 500) std::cout << "Thread " << threadNum << ": Wrote half of the values(500)" << std::endl;
                 break;
             }
         }
     }
+    hz.shutdown().get();
 }
 
 int main() {
-
     //! Set this variable to the desired block type
-    BLOCK_TYPES blockType = BLOCK_TYPES::OPTIMISTIC;
-
-    auto hz = hazelcast::new_client().get();
-    auto map = hz.get_map("my-distributed-map").get();
+    BLOCK_TYPES blockType = BLOCK_TYPES::NONE;
 
     std::vector<std::thread> threads;
 
@@ -69,15 +86,16 @@ int main() {
 
     // Launch 3 threads with the chosen blockType
     for (size_t i = 0; i < 3; i++) {
+        std::cout << "Thread " << i << " Started" << std::endl;
         switch(blockType) {
             case BLOCK_TYPES::NONE:
-                threads.emplace_back(task2_datarace, std::ref(map));
+                threads.emplace_back(task2_datarace, i);
                 break;
             case BLOCK_TYPES::PESSIMISTIC:
-                threads.emplace_back(task2_pessimistic_lock, std::ref(map));
+                threads.emplace_back(task2_pessimistic_lock, i);
                 break;
             case BLOCK_TYPES::OPTIMISTIC:
-                threads.emplace_back(task2_optimistic_lock, std::ref(map));
+                threads.emplace_back(task2_optimistic_lock, i);
                 break;
         }
     }
@@ -89,8 +107,11 @@ int main() {
     }
 
     // Get the result, 3000 is the correct one!
+    hazelcast::client::client_config config;
+    config.get_logger_config().level(hazelcast::logger::level::off); // disables logging completely
+    auto hz = hazelcast::new_client(std::move(config)).get();
+    auto map = hz.get_map("my-distributed-map").get();
     std::cout << "Finished! Result = " << (*(map->get<std::string, int>("1").get())) << std::endl;
-
     hz.shutdown().get();
 
     std::cout << "Done" << std::endl;

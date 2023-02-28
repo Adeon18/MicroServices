@@ -5,9 +5,9 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(write_client write_client.cpp)
+add_executable(task3_queue task3_queue.cpp)
 
 find_package(hazelcast-cpp-client CONFIG REQUIRED)
 
-target_link_libraries(write_client PRIVATE hazelcast-cpp-client::hazelcast-cpp-client)
+target_link_libraries(task3_queue PRIVATE hazelcast-cpp-client::hazelcast-cpp-client)
 
