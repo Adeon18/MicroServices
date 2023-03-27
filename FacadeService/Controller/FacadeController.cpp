@@ -5,7 +5,7 @@
 #include "FacadeController.hpp"
 
 namespace srv {
-    FacadeController::FacadeController() {
+    FacadeController::FacadeController(): facadeService{} {
         disallow_all();
         set_allowing("GET", true);
         set_allowing("POST", true);
@@ -29,8 +29,8 @@ namespace srv {
 
         mod::Message msg{"", std::string{request.get_content()}};
 
-        cpr::Response serviceResponse = facadeService.sendMessage(msg);
+        std::string serviceResponse = facadeService.sendMessage(msg);
 
-        return std::shared_ptr<http_response>(new string_response(serviceResponse.text));
+        return std::shared_ptr<http_response>(new string_response(serviceResponse));
     }
 } // srv
