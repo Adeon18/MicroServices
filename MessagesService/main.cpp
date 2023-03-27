@@ -1,13 +1,18 @@
 #include <httpserver.hpp>
 
-#include "service/MessageService.hpp"
+#include "Controller/MessageController.hpp"
+
+namespace hs = httpserver;
 
 int main(int argc, char** argv) {
-    srv::MessageService<srv::SERVICE_PORT> facadeService;
+    bool blocking = true;
+    hs::webserver facadeServer = hs::create_webserver(8082);
 
-    srv::MessageServiceResource fsr{};
-    facadeService.registerService(&fsr);
-    facadeService.start();
+    srv::MessageController fsr{};
+
+    facadeServer.register_resource("/MessageService", &fsr);
+    spdlog::info("Service at /MessageService started");
+    facadeServer.start(blocking);
 
     return 0;
 }

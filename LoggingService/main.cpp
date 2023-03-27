@@ -1,11 +1,16 @@
-#include "service/LoggingService.hpp"
+#include "Controller/LoggingController.hpp"
+
+namespace hs = httpserver;
 
 int main() {
-    srv::LoggingService<srv::SERVICE_PORT> loggingService;
+    bool blocking = true;
+    hs::webserver facadeServer = hs::create_webserver(8081);
 
-    srv::LoggingServiceResource lsr{};
-    loggingService.registerService(&lsr);
-    loggingService.start();
+    srv::LoggingController fsr{};
+
+    facadeServer.register_resource("/LoggingService", &fsr);
+    spdlog::info("Service at /LoggingService started");
+    facadeServer.start(blocking);
 
     return 0;
 }

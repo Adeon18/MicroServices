@@ -1,12 +1,17 @@
-#include "service/FacadeService.hpp"
+#include "Controller/FacadeController.hpp"
 
+namespace hs = httpserver;
 
 int main(int argc, char** argv) {
-    srv::FacadeService<srv::SERVICE_PORT> facadeService;
 
-    srv::FacadeServiceResource fsr{};
-    facadeService.registerService(&fsr);
-    facadeService.start();
+    bool blocking = true;
+    hs::webserver facadeServer = hs::create_webserver(8080);
+
+    srv::FacadeController fsr{};
+
+    facadeServer.register_resource("/FacadeService", &fsr);
+    spdlog::info("Service at /FacadeService started");
+    facadeServer.start(blocking);
 
     return 0;
 }

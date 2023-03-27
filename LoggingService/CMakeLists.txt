@@ -3,12 +3,16 @@ project(LoggingService)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(LoggingService main.cpp service/LoggingService.hpp service/LoggingService.cpp)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+add_executable(LoggingService main.cpp Controller/LoggingController.hpp Controller/LoggingController.cpp ../Model/Message.hpp Service/LoggingService.hpp Service/LoggingService.cpp Repository/MemoryRepository.hpp Repository/MemoryRepository.cpp)
 
 find_package(spdlog REQUIRED)
 
 # Taken from libhttp server github
 include(cmake/FindLibHttpServer.cmake)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ../Model)
 
 target_include_directories(${PROJECT_NAME} PRIVATE spdlog)
 target_link_libraries(${PROJECT_NAME} spdlog::spdlog)
