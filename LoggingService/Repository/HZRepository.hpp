@@ -13,13 +13,11 @@
 
 class HZRepository {
 public:
-    HZRepository() {
-        messagesMap = hzClient.get_map("my-distributed-map").get();
-    }
+    HZRepository();
     bool addMessage(const mod::Message& msg);
     void getMessages(std::vector<mod::Message>& msgs);
 private:
-    hazelcast::client::hazelcast_client hzClient = hazelcast::new_client().get();
+    hazelcast::client::hazelcast_client hzClient;
     std::shared_ptr<hazelcast::client::imap> messagesMap;
 };
 

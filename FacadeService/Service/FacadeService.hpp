@@ -10,8 +10,8 @@
 #include "Message.hpp"
 
 class FacadeService {
-    inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8082/MessageService";
-    inline static std::string LOGGING_SERVICE_ADDRESS = "http://localhost:8081/LoggingService";
+    inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8081/MessageService";
+    inline static std::string LOGGING_SERVICE_ADDRESS = "http://localhost:8082/LoggingService";
 public:
     //! Fills the vector with messages from Logging and MessageService
     void getMessages(std::vector<std::string>& messages);

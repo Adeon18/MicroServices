@@ -13,8 +13,8 @@ namespace srv {
     using namespace httpserver;
     //! Facade Service Resourse
     class FacadeController : public http_resource {
-        inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8082/MessageService";
-        inline static std::string LOGGING_SERVICE_ADDRESS = "http://localhost:8081/LoggingService";
+        inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8081/MessageService";
+        inline static std::string LOGGING_SERVICE_ADDRESS = "http://localhost:8082/LoggingService";
     public:
         FacadeController();
 

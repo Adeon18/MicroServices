@@ -5,10 +5,9 @@
 
 #include "HZRepository.hpp"
 
-//HZRepository::HZRepository()  {
-////        hazelcast::client::client_config config;
-////        config.get_logger_config().level(hazelcast::logger::level::off); // disables logging completely
-//}
+HZRepository::HZRepository(): hzClient{hazelcast::new_client().get()} {
+    messagesMap = hzClient.get_map("my-distributed-map").get();
+}
 
 bool HZRepository::addMessage(const mod::Message &msg) {
     messagesMap->put<std::string, std::string>(msg.uuid, msg.text).get();
