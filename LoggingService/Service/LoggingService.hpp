@@ -8,7 +8,7 @@
 #include "../Repository/MemoryRepository.hpp"
 #include "../Repository/HZRepository.hpp"
 
-#define HZ_MAP_ENABLE 0
+#define HZ_MAP_ENABLE 1
 
 class LoggingService {
 public:
