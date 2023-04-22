@@ -7,7 +7,7 @@
 
 #include <cpr/cpr.h>
 
-#include "Message.hpp"
+#include "MessageUUID.hpp"
 
 class FacadeService {
     inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8081/MessageService";
@@ -19,7 +19,7 @@ public:
     //! Fills the vector with messages from Logging and MessageService
     void getMessages(std::vector<std::string>& messages);
     //! Add UUID to message and send it to Logging Service
-    std::string sendMessage(mod::Message& message);
+    std::string sendMessage(mod::MessageUUID& message);
 private:
     void getLoggingServiceData(std::vector<std::string>& msgs);
     void getMessageServiceData(std::vector<std::string>& msgs);

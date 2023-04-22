@@ -5,13 +5,13 @@
 
 #include "MemoryRepository.hpp"
 
-bool MemoryRepository::addMessage(const mod::Message& msg) {
+bool MemoryRepository::addMessage(const mod::MessageUUID& msg) {
     messageMap[msg.uuid] = msg.text;
     spdlog::info("Repository: Message logged: " + msg.toString()) ;
     return true;
 }
 
-void MemoryRepository::getMessages(std::vector<mod::Message> &msgs) {
+void MemoryRepository::getMessages(std::vector<mod::MessageUUID> &msgs) {
     for (auto& [uuid, text]: messageMap) {
         msgs.emplace_back(uuid, text);
     }

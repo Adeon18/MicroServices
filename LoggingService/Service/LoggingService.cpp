@@ -4,11 +4,11 @@
 #include "LoggingService.hpp"
 
 
-bool LoggingService::addMessage(const mod::Message &msg) {
+bool LoggingService::addMessage(const mod::MessageUUID &msg) {
     return repository.addMessage(msg);
 }
 
-void LoggingService::getMessages(std::vector<mod::Message> &msgs) {
+void LoggingService::getMessages(std::vector<mod::MessageUUID> &msgs) {
     repository.getMessages(msgs);
 }
 

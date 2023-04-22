@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Message.hpp"
+#include "MessageUUID.hpp"
 
 #include "../Repository/MemoryRepository.hpp"
 #include "../Repository/HZRepository.hpp"
@@ -14,8 +14,8 @@ class LoggingService {
 public:
     LoggingService(): repository{} {}
 
-    bool addMessage(const mod::Message& msg);
-    void getMessages(std::vector<mod::Message>& msgs);
+    bool addMessage(const mod::MessageUUID& msg);
+    void getMessages(std::vector<mod::MessageUUID>& msgs);
 private:
 #if HZ_MAP_ENABLE == 1
     HZRepository repository;

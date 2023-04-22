@@ -27,7 +27,7 @@ namespace srv {
     std::shared_ptr<http_response> FacadeController::render_POST(const http_request& request) {
         spdlog::info("Controller: Received POST from: " + std::string{request.get_requestor()} + ":" + std::to_string(request.get_requestor_port()));
 
-        mod::Message msg{"", std::string{request.get_content()}};
+        mod::MessageUUID msg{"", std::string{request.get_content()}};
 
         std::string serviceResponse = facadeService.sendMessage(msg);
 

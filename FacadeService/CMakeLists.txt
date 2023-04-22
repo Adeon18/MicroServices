@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(spdlog REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp Service/FacadeService.hpp Service/FacadeService.cpp Controller/FacadeController.hpp Controller/FacadeController.cpp )
+add_executable(${PROJECT_NAME} main.cpp Service/FacadeService.hpp Service/FacadeService.cpp Controller/FacadeController.hpp Controller/FacadeController.cpp ../Model/MessageString.hpp)
 
 # Taken from libhttp server github
 include(cmake/FindLibHttpServer.cmake)

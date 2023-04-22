@@ -9,13 +9,13 @@ HZRepository::HZRepository(): hzClient{hazelcast::new_client().get()} {
     messagesMap = hzClient.get_map("my-distributed-map").get();
 }
 
-bool HZRepository::addMessage(const mod::Message &msg) {
+bool HZRepository::addMessage(const mod::MessageUUID &msg) {
     messagesMap->put<std::string, std::string>(msg.uuid, msg.text).get();
     spdlog::info("Repository: Message logged: " + msg.toString()) ;
     return true;
 }
 
-void HZRepository::getMessages(std::vector<mod::Message> &msgs) {
+void HZRepository::getMessages(std::vector<mod::MessageUUID> &msgs) {
     for (const auto &entry : messagesMap->entry_set<std::string, std::string>().get()) {
         msgs.emplace_back(entry.first, entry.second);
     }

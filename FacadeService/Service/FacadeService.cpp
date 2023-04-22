@@ -15,7 +15,7 @@ void FacadeService::getMessages(std::vector<std::string> &messages) {
     getMessageServiceData(messages);
 }
 
-std::string FacadeService::sendMessage(mod::Message &message) {
+std::string FacadeService::sendMessage(mod::MessageUUID &message) {
     message.uuid = util::generate_uuid_v4();
 
     spdlog::info("Service: Generated UUID pair: [" + message.uuid + ", " + message.text + "]");

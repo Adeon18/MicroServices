@@ -1,10 +1,10 @@
-#ifndef MICROSERVICES_MESSAGE_HPP
-#define MICROSERVICES_MESSAGE_HPP
+#ifndef MICROSERVICES_MESSAGEUUID_HPP
+#define MICROSERVICES_MESSAGEUUID_HPP
 
 #include <string>
 
 namespace mod {
-    struct Message {
+    struct MessageUUID {
         std::string uuid;
         std::string text;
 
@@ -12,4 +12,4 @@ namespace mod {
     };
 } // mod
 
-#endif //MICROSERVICES_MESSAGE_HPP
+#endif //MICROSERVICES_MESSAGEUUID_HPP

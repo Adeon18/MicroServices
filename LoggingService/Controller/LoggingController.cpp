@@ -13,7 +13,7 @@ namespace srv {
                 std::to_string(request.get_requestor_port())
         );
         // Get all the messages from the map
-        std::vector<mod::Message> msgs;
+        std::vector<mod::MessageUUID> msgs;
         service.getMessages(msgs);
 
         std::string messagesString;

@@ -9,13 +9,13 @@
 
 #include <hazelcast/client/hazelcast.h>
 
-#include "Message.hpp"
+#include "MessageUUID.hpp"
 
 class HZRepository {
 public:
     HZRepository();
-    bool addMessage(const mod::Message& msg);
-    void getMessages(std::vector<mod::Message>& msgs);
+    bool addMessage(const mod::MessageUUID& msg);
+    void getMessages(std::vector<mod::MessageUUID>& msgs);
 private:
     hazelcast::client::hazelcast_client hzClient;
     std::shared_ptr<hazelcast::client::imap> messagesMap;

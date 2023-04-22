@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(spdlog REQUIRED)
 
-add_executable(MessagesService main.cpp Controller/MessageController.hpp ../Model/Message.hpp)
+add_executable(MessagesService main.cpp Controller/MessageController.hpp ../Model/MessageUUID.hpp ../Model/MessageString.hpp)
 
 # Taken from libhttp server github
 include(cmake/FindLibHttpServer.cmake)
