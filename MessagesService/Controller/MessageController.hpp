@@ -10,6 +10,8 @@
 #include <spdlog/spdlog.h>
 #include <httpserver.hpp>
 
+#include "../Service/MessagesService.hpp"
+
 namespace srv {
     using namespace httpserver;
 
@@ -21,13 +23,9 @@ namespace srv {
             disallow_all();
             set_allowing("GET", true);
         }
-        std::shared_ptr<http_response> render_GET(const http_request& request) override {
-            spdlog::info(
-                    "Controller: Received GET from: " + std::string{request.get_requestor()} + ":" +
-                        std::to_string(request.get_requestor_port())
-            );
-            return std::shared_ptr<http_response>(new string_response(GET_RESPONSE));
-        }
+        std::shared_ptr<http_response> render_GET(const http_request& request) override;
+    private:
+        MessageService messageService;
     };
 } // srv
 
