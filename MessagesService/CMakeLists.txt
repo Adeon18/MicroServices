@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(spdlog REQUIRED)
 find_package(hazelcast-cpp-client CONFIG REQUIRED)
 
-add_executable(MessagesService main.cpp Controller/MessageController.hpp ../Model/MessageUUID.hpp ../Model/MessageString.hpp Controller/MessageController.cpp Service/MessagesService.hpp Service/MessagesService.cpp)
+add_executable(MessagesService main.cpp Controller/MessageController.hpp ../Model/MessageUUID.hpp ../Model/MessageString.hpp Controller/MessageController.cpp Service/MessagesService.hpp Service/MessagesService.cpp Repository/MessageMemRepository.cpp Repository/MessageMemRepository.hpp)
 
 # Taken from libhttp server github
 include(cmake/FindLibHttpServer.cmake)

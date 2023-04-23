@@ -5,6 +5,7 @@
 #include <hazelcast/client/hazelcast.h>
 
 #include "MessageString.hpp"
+#include "../Repository/MessageMemRepository.hpp"
 
 class MessageService {
 public:
@@ -14,6 +15,7 @@ public:
     //! Poll the hazelcast MQ for messages, should be called in a loop
     void pollMQ();
 private:
+    MessageMemRepository messageRepository;
     hazelcast::client::hazelcast_client hzClient;
     std::shared_ptr<hazelcast::client::iqueue> messageQueue;
 };

@@ -5,10 +5,13 @@ MessageService::MessageService(): hzClient{hazelcast::new_client().get()} {
 }
 
 void MessageService::pollMQ() {
-    std::cout << messageQueue->take<std::string>().get() << std::endl;
+    auto el = messageQueue->take<std::string>().get();
+    if (el) {
+        messageRepository.putMessage({*el});
+    }
 }
 
 void MessageService::getMessages(std::vector<mod::MessageString> &messages) {
-
+    messageRepository.getMessages(messages);
 }
 
