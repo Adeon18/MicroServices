@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    int port = 8082;
+    int port = 8081;
     if (argc == 2) {
         try {
             port = std::stoi(argv[1]);

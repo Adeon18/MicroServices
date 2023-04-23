@@ -15,7 +15,7 @@
 
 
 class FacadeService {
-    inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8081/MessageService";
+    inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8084/MessageService";
     inline static std::string LOGGING_GET_FAIL = "Failed to GET data from a logging service";
     inline static std::string LOGGING_POST_FAIL = "Failed to POST data to logging service";
 public:

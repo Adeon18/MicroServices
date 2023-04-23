@@ -12,7 +12,7 @@ namespace srv {
 
         std::string response;
         for (auto& msg: messages) {
-            response += msg.data + ", ";
+            response += msg.data + " ";
         }
 
         return std::shared_ptr<http_response>(new string_response(response));

@@ -6,9 +6,9 @@
 
 FacadeService::FacadeService(): hzClient{hazelcast::new_client().get()} {
     messageQueue = hzClient.get_queue("MQ").get();
+    loggingServices.push_back(cpr::Url{"http://localhost:8081/LoggingService"});
     loggingServices.push_back(cpr::Url{"http://localhost:8082/LoggingService"});
     loggingServices.push_back(cpr::Url{"http://localhost:8083/LoggingService"});
-    loggingServices.push_back(cpr::Url{"http://localhost:8084/LoggingService"});
 }
 
 
