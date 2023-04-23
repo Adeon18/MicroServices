@@ -5,7 +5,7 @@
 namespace hs = httpserver;
 
 int main(int argc, char** argv) {
-    bool blocking = true;
+    bool blocking = false;
     hs::webserver facadeServer = hs::create_webserver(8081);
 
     srv::MessageController fsr{};
@@ -13,6 +13,10 @@ int main(int argc, char** argv) {
     facadeServer.register_resource("/MessageService", &fsr);
     spdlog::info("Service at /MessageService started");
     facadeServer.start(blocking);
+
+    while (true) {
+        fsr.getMessageService().pollMQ();
+    }
 
     return 0;
 }

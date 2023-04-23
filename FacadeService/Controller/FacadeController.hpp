@@ -15,6 +15,9 @@ namespace srv {
     class FacadeController : public http_resource {
         inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8081/MessageService";
         inline static std::string LOGGING_SERVICE_ADDRESS = "http://localhost:8082/LoggingService";
+
+        inline static std::string POST_SUCCESS = "Posted to Message and Logging services";
+        inline static std::string POST_FAILURE = "Failed posting to Message and Logging services";
     public:
         FacadeController();
 

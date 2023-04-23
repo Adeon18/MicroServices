@@ -3,7 +3,9 @@
 
 #include "FacadeService.hpp"
 
-FacadeService::FacadeService() {
+
+FacadeService::FacadeService(): hzClient{hazelcast::new_client().get()} {
+    messageQueue = hzClient.get_queue("MQ").get();
     loggingServices.push_back(cpr::Url{"http://localhost:8082/LoggingService"});
     loggingServices.push_back(cpr::Url{"http://localhost:8083/LoggingService"});
     loggingServices.push_back(cpr::Url{"http://localhost:8084/LoggingService"});
@@ -15,7 +17,7 @@ void FacadeService::getMessages(std::vector<std::string> &messages) {
     getMessageServiceData(messages);
 }
 
-std::string FacadeService::sendMessage(mod::MessageUUID &message) {
+std::optional<std::string> FacadeService::sendMessageToLogging(mod::MessageUUID &message) {
     message.uuid = util::generate_uuid_v4();
 
     spdlog::info("Service: Generated UUID pair: [" + message.uuid + ", " + message.text + "]");
@@ -29,10 +31,14 @@ std::string FacadeService::sendMessage(mod::MessageUUID &message) {
     spdlog::info("Service: POST STATUS: " + std::to_string(resp.status_code));
 
     if (resp.status_code != 200) {
-        return LOGGING_POST_FAIL;
+        return {};
     }
 
     return resp.text;
+}
+
+void FacadeService::pushMessageToMQ(mod::MessageString &message) {
+    messageQueue->put<std::string>(message.data);
 }
 
 void FacadeService::getLoggingServiceData(std::vector<std::string>& msgs) {

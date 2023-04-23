@@ -2,12 +2,17 @@
 #define MICROSERVICES_FACADESERVICE_HPP
 
 #include <vector>
+#include <optional>
 
 #include <random>
 
 #include <cpr/cpr.h>
 
+#include <hazelcast/client/hazelcast.h>
+
 #include "MessageUUID.hpp"
+#include "MessageString.hpp"
+
 
 class FacadeService {
     inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8081/MessageService";
@@ -19,11 +24,16 @@ public:
     //! Fills the vector with messages from Logging and MessageService
     void getMessages(std::vector<std::string>& messages);
     //! Add UUID to message and send it to Logging Service
-    std::string sendMessage(mod::MessageUUID& message);
+    std::optional<std::string> sendMessageToLogging(mod::MessageUUID& message);
+    void pushMessageToMQ(mod::MessageString& message);
+
 private:
     void getLoggingServiceData(std::vector<std::string>& msgs);
     void getMessageServiceData(std::vector<std::string>& msgs);
     std::vector<cpr::Url> loggingServices;
+
+    hazelcast::client::hazelcast_client hzClient;
+    std::shared_ptr<hazelcast::client::iqueue> messageQueue;
 };
 
 namespace util {

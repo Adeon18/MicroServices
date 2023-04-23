@@ -28,9 +28,11 @@ namespace srv {
         spdlog::info("Controller: Received POST from: " + std::string{request.get_requestor()} + ":" + std::to_string(request.get_requestor_port()));
 
         mod::MessageUUID msg{"", std::string{request.get_content()}};
+        mod::MessageString msgStr{std::string{request.get_content()}};
 
-        std::string serviceResponse = facadeService.sendMessage(msg);
+        std::optional<std::string> serviceResponse = facadeService.sendMessageToLogging(msg);
+        facadeService.pushMessageToMQ(msgStr);
 
-        return std::shared_ptr<http_response>(new string_response(serviceResponse));
+        return std::shared_ptr<http_response>(new string_response((serviceResponse) ? POST_SUCCESS: POST_FAILURE));
     }
 } // srv

@@ -24,6 +24,8 @@ namespace srv {
             set_allowing("GET", true);
         }
         std::shared_ptr<http_response> render_GET(const http_request& request) override;
+
+        [[nodiscard]] MessageService& getMessageService() { return messageService; }
     private:
         MessageService messageService;
     };
