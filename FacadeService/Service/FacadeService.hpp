@@ -15,7 +15,6 @@
 
 
 class FacadeService {
-    inline static std::string MESSAGES_SERVICE_ADDRESS = "http://localhost:8084/MessageService";
     inline static std::string LOGGING_GET_FAIL = "Failed to GET data from a logging service";
     inline static std::string LOGGING_POST_FAIL = "Failed to POST data to logging service";
 public:
@@ -31,6 +30,7 @@ private:
     void getLoggingServiceData(std::vector<std::string>& msgs);
     void getMessageServiceData(std::vector<std::string>& msgs);
     std::vector<cpr::Url> loggingServices;
+    std::vector<cpr::Url> messageServices;
 
     hazelcast::client::hazelcast_client hzClient;
     std::shared_ptr<hazelcast::client::iqueue> messageQueue;

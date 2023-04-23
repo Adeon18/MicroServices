@@ -9,6 +9,8 @@ FacadeService::FacadeService(): hzClient{hazelcast::new_client().get()} {
     loggingServices.push_back(cpr::Url{"http://localhost:8081/LoggingService"});
     loggingServices.push_back(cpr::Url{"http://localhost:8082/LoggingService"});
     loggingServices.push_back(cpr::Url{"http://localhost:8083/LoggingService"});
+    messageServices.push_back(cpr::Url{"http://localhost:8084/MessageService"});
+    messageServices.push_back(cpr::Url{"http://localhost:8085/MessageService"});
 }
 
 
@@ -57,9 +59,10 @@ void FacadeService::getLoggingServiceData(std::vector<std::string>& msgs) {
 }
 
 void FacadeService::getMessageServiceData(std::vector<std::string> &msgs) {
+    size_t messageServiceIdx = rand() % messageServices.size();
     // Send GET to MessagesService
-    spdlog::info("Service: Sending GET to: " + MESSAGES_SERVICE_ADDRESS);
-    cpr::Response respMessages = cpr::Get(cpr::Url{MESSAGES_SERVICE_ADDRESS});
+    spdlog::info("Service: Sending GET to: " + messageServices[messageServiceIdx].str());
+    cpr::Response respMessages = cpr::Get(messageServices[messageServiceIdx]);
     spdlog::info("Service: GET STATUS: " + std::to_string(respMessages.status_code));
 
     msgs.push_back(respMessages.text);
