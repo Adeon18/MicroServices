@@ -1,3 +1,4 @@
+#include <spdlog/spdlog.h>
 #include "MessagesService.hpp"
 
 MessageService::MessageService(): hzClient{hazelcast::new_client().get()} {
@@ -7,6 +8,7 @@ MessageService::MessageService(): hzClient{hazelcast::new_client().get()} {
 void MessageService::pollMQ() {
     auto el = messageQueue->take<std::string>().get();
     if (el) {
+        spdlog::info("Service: Pulled element from MQ: " + *el);
         messageRepository.putMessage({*el});
     }
 }
