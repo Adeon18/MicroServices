@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(spdlog REQUIRED)
 find_package(hazelcast-cpp-client CONFIG REQUIRED)
+find_package(ppconsul)
 
 add_executable(${PROJECT_NAME} main.cpp Service/FacadeService.hpp Service/FacadeService.cpp Controller/FacadeController.hpp Controller/FacadeController.cpp ../Model/MessageString.hpp)
 
@@ -24,4 +25,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${LIBCPR_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${LIBCPR_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} hazelcast-cpp-client::hazelcast-cpp-client)
+
+target_link_libraries(${PROJECT_NAME} ppconsul)
 

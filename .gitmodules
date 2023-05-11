@@ -7,3 +7,6 @@
 [submodule "lib/spdlog"]
 	path = lib/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "lib/ppconsul"]
+	path = lib/ppconsul
+	url = https://github.com/oliora/ppconsul.git
