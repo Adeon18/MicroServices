@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     bool blocking = false;
     hs::webserver facadeServer = hs::create_webserver(port);
 
-    srv::MessageController fsr{};
+    srv::MessageController fsr{port};
 
     facadeServer.register_resource("/MessageService", &fsr);
     spdlog::info("Service at /MessageService started");

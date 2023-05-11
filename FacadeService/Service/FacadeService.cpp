@@ -17,11 +17,6 @@ FacadeService::FacadeService(int port): hzClient{hazelcast::new_client().get()},
             //ppconsul::agent::kw::check = ppconsul::agent::HttpCheck{"http://127.0.0.1:8080/FacadeService", std::chrono::seconds(2)}
     );
     messageQueue = hzClient.get_queue("MQ").get();
-    loggingServices.push_back(cpr::Url{"http://localhost:8081/LoggingService"});
-    loggingServices.push_back(cpr::Url{"http://localhost:8082/LoggingService"});
-    loggingServices.push_back(cpr::Url{"http://localhost:8083/LoggingService"});
-    messageServices.push_back(cpr::Url{"http://localhost:8084/MessageService"});
-    messageServices.push_back(cpr::Url{"http://localhost:8085/MessageService"});
 }
 
 
@@ -35,7 +30,7 @@ std::optional<std::string> FacadeService::sendMessageToLogging(mod::MessageUUID 
 
     spdlog::info("Service: Generated UUID pair: [" + message.uuid + ", " + message.text + "]");
 
-    auto serviceChosen = getLoggingService();
+    auto serviceChosen = getServiceFromConsul(LOGGING_SERVICE_CONSUL_GET);
     if (!serviceChosen) {
         spdlog::info("Service: No Logging services available");
         return {};
@@ -59,7 +54,7 @@ void FacadeService::pushMessageToMQ(mod::MessageString &message) {
 }
 
 void FacadeService::getLoggingServiceData(std::vector<std::string>& msgs) {
-    auto serviceChosen = getLoggingService();
+    auto serviceChosen = getServiceFromConsul(LOGGING_SERVICE_CONSUL_GET);
     if (!serviceChosen) {
         spdlog::info("Service: No Logging services available");
         return;
@@ -78,17 +73,20 @@ void FacadeService::getLoggingServiceData(std::vector<std::string>& msgs) {
 }
 
 void FacadeService::getMessageServiceData(std::vector<std::string> &msgs) {
-    size_t messageServiceIdx = rand() % messageServices.size();
+    auto serviceChosen = getServiceFromConsul(MESSAGE_SERVICE_CONSUL_GET);
+    if (!serviceChosen) {
+        spdlog::info("Service: No Message services available");
+        return;
+    }
     // Send GET to MessagesService
-    spdlog::info("Service: Sending GET to: " + messageServices[messageServiceIdx].str());
-    cpr::Response respMessages = cpr::Get(messageServices[messageServiceIdx]);
+    spdlog::info("Service: Sending GET to: " + serviceChosen->str());
+    cpr::Response respMessages = cpr::Get(*serviceChosen);
     spdlog::info("Service: GET STATUS: " + std::to_string(respMessages.status_code));
 
     msgs.push_back(respMessages.text);
 }
-std::optional<cpr::Url> FacadeService::getLoggingService(){
-
-    json response = json::parse(consul.get(LOGGING_SERVICE_CONSUL_GET));
+std::optional<cpr::Url> FacadeService::getServiceFromConsul(const std::string& name){
+    json response = json::parse(consul.get(name));
 
     std::vector<std::string> availableServices;
     for (auto & it : response) {
@@ -101,7 +99,6 @@ std::optional<cpr::Url> FacadeService::getLoggingService(){
     if (!availableServices.empty()) {
         return {availableServices[rand() % availableServices.size()]};
     }
-
     return {};
 }
 

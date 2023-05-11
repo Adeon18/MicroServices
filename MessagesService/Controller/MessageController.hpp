@@ -19,7 +19,7 @@ namespace srv {
     class MessageController : public http_resource {
         inline static std::string GET_RESPONSE = "Message server GET response placeholder";
     public:
-        MessageController() {
+        MessageController(int port): messageService{port} {
             disallow_all();
             set_allowing("GET", true);
         }
