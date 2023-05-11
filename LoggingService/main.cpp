@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     bool blocking = true;
     hs::webserver facadeServer = hs::create_webserver(port);
 
-    srv::LoggingController fsr{};
+    srv::LoggingController fsr{port};
 
     facadeServer.register_resource("/LoggingService", &fsr);
     spdlog::info("Service at /LoggingService started");

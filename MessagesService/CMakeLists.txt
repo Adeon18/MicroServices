@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(spdlog REQUIRED)
 find_package(hazelcast-cpp-client CONFIG REQUIRED)
+find_package(ppconsul)
 
 add_executable(MessagesService main.cpp Controller/MessageController.hpp ../Model/MessageUUID.hpp ../Model/MessageString.hpp Controller/MessageController.cpp Service/MessagesService.hpp Service/MessagesService.cpp Repository/MessageMemRepository.cpp Repository/MessageMemRepository.hpp)
 
@@ -20,3 +21,5 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${LIBHTTPSERVER_INCLUDE_DIRS}
 target_link_libraries(${PROJECT_NAME} ${LIBHTTPSERVER_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} hazelcast-cpp-client::hazelcast-cpp-client)
+
+target_link_libraries(${PROJECT_NAME} ppconsul)

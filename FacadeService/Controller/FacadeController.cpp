@@ -5,7 +5,7 @@
 #include "FacadeController.hpp"
 
 namespace srv {
-    FacadeController::FacadeController(): facadeService{} {
+    FacadeController::FacadeController(int port): facadeService{port} {
         disallow_all();
         set_allowing("GET", true);
         set_allowing("POST", true);

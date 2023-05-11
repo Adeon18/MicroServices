@@ -20,7 +20,7 @@ namespace srv {
         inline static std::string POST_SUCCESS = "Message Logged";
         inline static std::string POST_FAIL = "Message Logged";
     public:
-        LoggingController();
+        LoggingController(int port);
         //! Logging GET response
         std::shared_ptr<http_response> render_GET(const http_request& request) override;
         //! Logging POST operations

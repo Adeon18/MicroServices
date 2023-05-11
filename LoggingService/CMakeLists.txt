@@ -23,3 +23,5 @@ target_link_libraries(${PROJECT_NAME} ${LIBHTTPSERVER_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} hazelcast-cpp-client::hazelcast-cpp-client)
 
+target_link_libraries(${PROJECT_NAME} ppconsul)
+

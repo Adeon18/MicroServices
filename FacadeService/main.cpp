@@ -1,46 +1,31 @@
 #include "Controller/FacadeController.hpp"
 
-#include "ppconsul/agent.h"
-#include "ppconsul/kv.h"
-
-using ppconsul::Consul;
-using namespace ppconsul::agent;
-
-
 namespace hs = httpserver;
 
 int main(int argc, char** argv) {
+    if (argc > 2) {
+        std::cerr << "Too many arguments" << std::endl;
+        return -1;
+    }
 
-    // Create a consul client that uses default local endpoint `http://127.0.0.1:8500` and default data center
-    Consul consul;
-// We need the 'agent' endpoint for a service registration
-    Agent agent(consul);;
+    int port = 8080;
+    if (argc == 2) {
+        try {
+            port = std::stoi(argv[1]);
+        }
+        catch(std::invalid_argument const& ex)
+        {
+            std::cerr << "Invalid port number" << std::endl;
+            return -1;
+        }
+    }
 
-    ppconsul::kv::Kv kv(consul);
-// Register a service with associated HTTP check:
-    agent.registerService("FacadeService",
-            kw::name = "FacadeService",
-            kw::address = "127.0.0.1",
-            kw::port = 8080,
-            kw::id = "FacadeService1",
-            kw::check = HttpCheck{"http://127.0.0.1:8080/FacadeService", std::chrono::seconds(2)}
-    );
-    agent.registerService("FacadeService",
-            kw::name = "FacadeService",
-            kw::address = "127.0.0.1",
-            kw::port = 8081,
-            kw::id = "FacadeService2",
-            kw::check = HttpCheck{"http://localhost:81/FacadeService", std::chrono::seconds(2)}
-    );
-
-    std::cout << consul.get("/v1/agent/services") << std::endl;
-
-    std::cout << kv.get("MQNAME", "default-value") << std::endl;
+    //std::cout << kv.get("MQNAME", "default-value") << std::endl;
 
     bool blocking = true;
-    hs::webserver facadeServer = hs::create_webserver(8080);
+    hs::webserver facadeServer = hs::create_webserver(port);
 
-    srv::FacadeController fsr{};
+    srv::FacadeController fsr{port};
 
     facadeServer.register_resource("/FacadeService", &fsr);
     spdlog::info("Service at /FacadeService started");

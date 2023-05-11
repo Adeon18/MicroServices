@@ -1,7 +1,7 @@
 #include "LoggingController.hpp"
 
 namespace srv {
-    LoggingController::LoggingController(): service{} {
+    LoggingController::LoggingController(int port): service{port} {
         disallow_all();
         set_allowing("GET", true);
         set_allowing("POST", true);

@@ -13,7 +13,7 @@ add_executable(${PROJECT_NAME} main.cpp Service/FacadeService.hpp Service/Facade
 include(cmake/FindLibHttpServer.cmake)
 include(cmake/FindCpr.cmake)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ../Model)
+target_include_directories(${PROJECT_NAME} PRIVATE ../Model ../lib/json)
 
 target_include_directories(${PROJECT_NAME} PRIVATE spdlog)
 target_link_libraries(${PROJECT_NAME} spdlog::spdlog)

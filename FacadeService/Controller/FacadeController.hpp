@@ -19,7 +19,7 @@ namespace srv {
         inline static std::string POST_SUCCESS = "Posted to Message and Logging services";
         inline static std::string POST_FAILURE = "Failed posting to Message and Logging services";
     public:
-        FacadeController();
+        FacadeController(int port);
 
         //! Send get requests to MessageService and Logging Service and return respective data
         std::shared_ptr<http_response> render_GET(const http_request &request) override;
