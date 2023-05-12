@@ -11,6 +11,7 @@
 #include <hazelcast/client/hazelcast.h>
 
 #include <ppconsul/agent.h>
+#include <ppconsul/kv.h>
 
 #include "MessageUUID.hpp"
 #include "MessageString.hpp"

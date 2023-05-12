@@ -1,6 +1,5 @@
 #include <httpserver.hpp>
 #include <spdlog/spdlog.h>
-#include <ppconsul/kv.h>
 
 #include "json.hpp"
 
