@@ -38,6 +38,7 @@ private:
 
     ppconsul::Consul consul;
     ppconsul::agent::Agent consulAgent;
+    ppconsul::kv::Kv consulKV;
     hazelcast::client::hazelcast_client hzClient;
     std::shared_ptr<hazelcast::client::iqueue> messageQueue;
 };

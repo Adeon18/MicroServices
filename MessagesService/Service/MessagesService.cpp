@@ -9,11 +9,10 @@ MessageService::MessageService(int port): hzClient{hazelcast::new_client().get()
         ppconsul::agent::kw::address = "127.0.0.1",
         ppconsul::agent::kw::port = port,
         ppconsul::agent::kw::id = "MessageService" + std::to_string(port)
-        //ppconsul::agent::kw::check = ppconsul::agent::HttpCheck{"http://127.0.0.1:8080/FacadeService", std::chrono::seconds(2)}
     );
 
     std::string mqName = consulKV.get("MQNAME", "DEF");
-    if (mqName == "DEF") { spdlog::info("Could not get the MQ by name" ); }
+    if (mqName == "DEF") { spdlog::info("Service: Could not get the MQ by name" ); }
     messageQueue = hzClient.get_queue(mqName).get();
 }
 

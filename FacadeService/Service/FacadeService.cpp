@@ -1,5 +1,6 @@
 #include <httpserver.hpp>
 #include <spdlog/spdlog.h>
+#include <ppconsul/kv.h>
 
 #include "json.hpp"
 
@@ -7,16 +8,17 @@
 
 using json = nlohmann::json;
 
-FacadeService::FacadeService(int port): hzClient{hazelcast::new_client().get()}, consul{}, consulAgent(consul) {
+FacadeService::FacadeService(int port): hzClient{hazelcast::new_client().get()}, consul{}, consulAgent(consul), consulKV{consul} {
     consulAgent.registerService(
             "FacadeService",
             ppconsul::agent::kw::name = "FacadeService",
             ppconsul::agent::kw::address = "127.0.0.1",
             ppconsul::agent::kw::port = port,
             ppconsul::agent::kw::id = "FacadeService" + std::to_string(port)
-            //ppconsul::agent::kw::check = ppconsul::agent::HttpCheck{"http://127.0.0.1:8080/FacadeService", std::chrono::seconds(2)}
     );
-    messageQueue = hzClient.get_queue("MQ").get();
+    std::string mqName = consulKV.get("MQNAME", "DEF");
+    if (mqName == "DEF") { spdlog::info("Service: Could not get the MQ by name" ); }
+    messageQueue = hzClient.get_queue(mqName).get();
 }
 
 

@@ -28,7 +28,6 @@ public:
                 ppconsul::agent::kw::address = "127.0.0.1",
                 ppconsul::agent::kw::port = port,
                 ppconsul::agent::kw::id = "LoggingService" + std::to_string(port)
-                //ppconsul::agent::kw::check = ppconsul::agent::HttpCheck{"http://127.0.0.1:8080/FacadeService", std::chrono::seconds(2)}
         );
     }
 
