@@ -9,9 +9,10 @@ Some microservices written in C++ as lab works for the Software Architecture Cou
 - spdlog
 - libhttpserver
 - cpr
+- ppconsul
 - [hazelcast c++ client](https://github.com/hazelcast/hazelcast-cpp-client)
 
-_Note: cpr, spdlog and libhttpserver can be installed via package managers or by compiling from
+_Note: cpr, spdlog, ppconsul and libhttpserver can be built installed via package managers or by compiling from
 source(the libraries are connected as submodules)_
 
 _Note 2: Hazelcast C++ Client has to be installed manually_
