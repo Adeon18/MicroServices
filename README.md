@@ -31,20 +31,39 @@ cmake .. && make
 
 ## Running
 
+Hazelcast Cluster:
 ```sh
-# FacadeService
-./FacadeService/FacadeService
 # 3 hazelcast nodes in docker - wait for them to connect
 docker run -p 5701:5701 hazelcast/hazelcast
 docker run -p 5702:5701 hazelcast/hazelcast
 docker run -p 5703:5701 hazelcast/hazelcast
+```
 
-# 3 Logging services to work with 3 nodes
-./LoggingService/LoggingService 8081
-./LoggingService/LoggingService 8082
-./LoggingService/LoggingService 8083
+To Run Consul:
+```shell
+./scripts/run-consul.sh
+```
 
-# 2 MessageServices
-./MessageService/MessageService 8084
-./MessageService/MessageService 8085
+To Fill Key/Value data in Consul:
+```shell
+./scripts/fill-data.sh
+```
+
+Microservices:
+```shell
+./FacadeService/FacadeService <port>
+./LoggingService/LoggingService <port>
+./MessagesService/MessagesService <port>
+```
+- Can run multiple services, and they will register themselves to consul at start.
+
+
+To deregister service in Consul at halt:
+```shell
+./scripts/deregister-service.sh <service-id>
+```
+
+To shutdown and delete consul container:
+```shell
+./stop-consul.sh
 ```
