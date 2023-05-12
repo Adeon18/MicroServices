@@ -13,7 +13,7 @@
 
 class HZRepository {
 public:
-    HZRepository();
+    explicit HZRepository(const std::string& mapName);
     bool addMessage(const mod::MessageUUID& msg);
     void getMessages(std::vector<mod::MessageUUID>& msgs);
 private:

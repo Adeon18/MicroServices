@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <ppconsul/agent.h>
+#include <ppconsul/kv.h>
 
 #include "MessageUUID.hpp"
 
@@ -14,7 +15,13 @@
 
 class LoggingService {
 public:
-    explicit LoggingService(int port): repository{}, consul{}, consulAgent{consul} {
+    explicit LoggingService(int port):
+    consul{},
+    consulAgent{consul},
+    consulKV{consul},
+    // Get the MQ by name(written is script prior
+    repository{consulKV.get("MAPNAME", "DEF")}
+    {
         consulAgent.registerService(
                 "LoggingService",
                 ppconsul::agent::kw::name = "LoggingService",
@@ -29,9 +36,10 @@ public:
     void getMessages(std::vector<mod::MessageUUID>& msgs);
 private:
 #if HZ_MAP_ENABLE == 1
-    HZRepository repository;
     ppconsul::Consul consul;
     ppconsul::agent::Agent consulAgent;
+    ppconsul::kv::Kv consulKV;
+    HZRepository repository;
 #else
     MemoryRepository repository;
 #endif

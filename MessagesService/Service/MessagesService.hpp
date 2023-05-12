@@ -5,6 +5,7 @@
 #include <hazelcast/client/hazelcast.h>
 
 #include <ppconsul/agent.h>
+#include <ppconsul/kv.h>
 
 #include "MessageString.hpp"
 #include "../Repository/MessageMemRepository.hpp"
@@ -19,6 +20,7 @@ public:
 private:
     ppconsul::Consul consul;
     ppconsul::agent::Agent consulAgent;
+    ppconsul::kv::Kv consulKV;
     MessageMemRepository messageRepository;
     hazelcast::client::hazelcast_client hzClient;
     std::shared_ptr<hazelcast::client::iqueue> messageQueue;

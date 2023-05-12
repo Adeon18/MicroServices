@@ -1,7 +1,8 @@
 #include <spdlog/spdlog.h>
 #include "MessagesService.hpp"
 
-MessageService::MessageService(int port): hzClient{hazelcast::new_client().get()}, consul{}, consulAgent{consul} {
+MessageService::MessageService(int port): hzClient{hazelcast::new_client().get()}, consul{}, consulAgent{consul},
+                                          consulKV{consul} {
     consulAgent.registerService(
         "MessageService",
         ppconsul::agent::kw::name = "MessageService",
@@ -11,7 +12,9 @@ MessageService::MessageService(int port): hzClient{hazelcast::new_client().get()
         //ppconsul::agent::kw::check = ppconsul::agent::HttpCheck{"http://127.0.0.1:8080/FacadeService", std::chrono::seconds(2)}
     );
 
-    messageQueue = hzClient.get_queue("MQ").get();
+    std::string mqName = consulKV.get("MQNAME", "DEF");
+    if (mqName == "DEF") { spdlog::info("Could not get the MQ by name" ); }
+    messageQueue = hzClient.get_queue(mqName).get();
 }
 
 void MessageService::pollMQ() {

@@ -5,8 +5,8 @@
 
 #include "HZRepository.hpp"
 
-HZRepository::HZRepository(): hzClient{hazelcast::new_client().get()} {
-    messagesMap = hzClient.get_map("my-distributed-map").get();
+HZRepository::HZRepository(const std::string& mapName): hzClient{hazelcast::new_client().get()} {
+    messagesMap = hzClient.get_map(mapName).get();
 }
 
 bool HZRepository::addMessage(const mod::MessageUUID &msg) {
